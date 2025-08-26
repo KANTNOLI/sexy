@@ -53,6 +53,13 @@ export default function Home() {
 
   useEffect(() => {
     setTime(getTimeSinceMay182025())
+    const i = setInterval(() => {
+      setTime(getTimeSinceMay182025())
+    }, 1000);
+
+    return () => {
+      clearInterval(i)
+    }
   }, [])
 
 
