@@ -1,5 +1,7 @@
 "use client"
 
+
+
 import { useEffect, useState } from "react";
 import style from "./page.module.scss"
 

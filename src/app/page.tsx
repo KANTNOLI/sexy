@@ -48,6 +48,7 @@ function getTimeSinceMay182025(): {
 
 
 export default function Home() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [Time, setTime] = useState<any>()
 
   useEffect(() => {
