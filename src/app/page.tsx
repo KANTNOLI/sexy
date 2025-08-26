@@ -45,16 +45,59 @@ function getTimeSinceMay182025(): {
   };
 }
 
+function get2(): {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  totalHours: number;
+  totalMinutes: number;
+  totalSeconds: number;
+  formatted: string;
+} {
+  const targetDate = new Date(2025, 4, 3, 22, 19);
+  const currentDate = new Date();
 
+  const differenceMs = Math.max(0, currentDate.getTime() - targetDate.getTime());
+
+  // Рассчитываем общее количество единиц времени
+  const totalSeconds = Math.floor(differenceMs / 1000);
+  const totalMinutes = Math.floor(totalSeconds / 60);
+  const totalHours = Math.floor(totalMinutes / 60);
+  const totalDays = Math.floor(totalHours / 24);
+
+  // Рассчитываем остатки для форматирования
+  const seconds = totalSeconds % 60;
+  const minutes = totalMinutes % 60;
+  const hours = totalHours % 24;
+  const days = totalDays;
+
+  // Форматируем строку
+  const formatted = `${days}.${hours.toString().padStart(2, '0')}.${minutes.toString().padStart(2, '0')}.${seconds.toString().padStart(2, '0')}`;
+
+  return {
+    days,
+    hours,
+    minutes,
+    seconds,
+    totalHours,
+    totalMinutes,
+    totalSeconds,
+    formatted
+  };
+}
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [Time, setTime] = useState<any>()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [Time2, setTime2] = useState<any>()
 
   useEffect(() => {
     setTime(getTimeSinceMay182025())
     const i = setInterval(() => {
       setTime(getTimeSinceMay182025())
+      setTime2(get2())
     }, 1000);
 
     return () => {
@@ -93,6 +136,15 @@ export default function Home() {
         <p>Часов: <span>{Time && Time.totalHours ? Time.totalHours : "Загрузка"}</span></p>
         <p>Минут: <span>{Time && Time.totalMinutes ? Time.totalMinutes : "Загрузка"}</span></p>
         <p>Секунд: <span>{Time && Time.totalSeconds ? Time.totalSeconds : "Загрузка"} </span></p>
+      </div>
+
+      <div className={style.block}>
+        <p className={style.blockT}>Мы знакомы уже</p>
+        <p>Формат: <span>{Time2 && Time2.formatted ? Time2.formatted : "Загрузка"}</span> <span>дд:чч:мм:cc</span></p>
+        <p>Дней: <span>{Time2 && Time2.days ? Time2.days : "Загрузка"}</span></p>
+        <p>Часов: <span>{Time2 && Time2.totalHours ? Time2.totalHours : "Загрузка"}</span></p>
+        <p>Минут: <span>{Time2 && Time2.totalMinutes ? Time2.totalMinutes : "Загрузка"}</span></p>
+        <p>Секунд: <span>{Time2 && Time2.totalSeconds ? Time2.totalSeconds : "Загрузка"} </span></p>
       </div>
     </div>
   );
